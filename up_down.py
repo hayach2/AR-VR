@@ -15,7 +15,7 @@ if __name__ == '__main__':
 	cx = cx_
 	cy = cy_
 	
-	MIN_MOVE = 10
+	MIN_MOVE = 20
 	while True:
 		_, frame = Camera.read()
 		
@@ -27,6 +27,8 @@ if __name__ == '__main__':
 			cy = (box[0][0] + box[0][2]) / 2
 			cv2.rectangle(frame, (box[0][3], box[0][2]), (box[0][1], box[0][0]), (0, 0, 255), 2)
 			
+			# if person moves head to right or left: disable the navigation
+			# if person doesn't go left and right for 1 second, then he's focused
 			if abs(cx - cx_) > abs(cy - cy_):
 				# print(cx,cx_, cy, cy_)
 				if cx - cx_ > MIN_MOVE:
