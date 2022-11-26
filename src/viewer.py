@@ -61,8 +61,12 @@ class Viewer(Node):
 
             # Poll for and process events
             glfw.poll_events()
+            
+            f = open("test.txt", "r")
+            x = f.read(1)
+            # f.close()
 
-            self.camera.processInput(window=self.win, deltaTime=delta_time)
+            self.camera.processInput(window=self.win, deltaTime=delta_time, x=x)
 
     def on_key(self, _win, key, _scancode, action, _mods):
         """ 'Q' or 'Escape' quits """
