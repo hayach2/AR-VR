@@ -36,6 +36,7 @@ class Camera:
 		if len(x) > 0:
 			x = int(x)
 			if x == 1 and self.cameraPos[1] < 191:
+				# x, y, z
 				self.cameraPos += np.array((0.0, 0.3, 0.0))
 				print("moving UP")
 			elif x == 0 and self.cameraPos[1] > -191:

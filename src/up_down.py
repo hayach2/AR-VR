@@ -20,9 +20,8 @@ def head_movements():
 	cx = cx_
 	cy = cy_
 	
+	# sensitivity
 	MIN_MOVE = 20
-	
-	print('here')
 	
 	while True:
 		
@@ -39,6 +38,7 @@ def head_movements():
 			# if person moves head to right or left: disable the navigation
 			# if person doesn't go left and right for 1 second, then he's focused
 			f = open("test.txt", "w")
+			# possibility to stop navigating
 			f.write("")
 			if abs(cx - cx_) < abs(cy - cy_):
 				if cy - cy_ > MIN_MOVE:
