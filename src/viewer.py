@@ -17,6 +17,7 @@ class Viewer(Node):
         self.height = height
         self.camera = Camera()
         self.lastFrame = 0.0
+        self.SPACE_KEY_PRESSED = False
 
         # version hints: create GL window with >= OpenGL 3.3 and core profile
         glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 3)
@@ -61,12 +62,17 @@ class Viewer(Node):
 
             # Poll for and process events
             glfw.poll_events()
-            
-            f = open("test.txt", "r")
-            x = f.read(1)
-            # f.close()
 
-            self.camera.processInput(window=self.win, deltaTime=delta_time, x=x)
+            if glfw.get_key(window=self.win, key=glfw.KEY_SPACE):
+                print('KEY PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!')
+                self.SPACE_KEY_PRESSED = not self.SPACE_KEY_PRESSED
+
+            print(self.SPACE_KEY_PRESSED)
+            if not self.SPACE_KEY_PRESSED:
+                f = open("test.txt", "r")
+                x = f.read(1)
+                # f.close()
+                self.camera.processInput(window=self.win, deltaTime=delta_time, x=x)
 
     def on_key(self, _win, key, _scancode, action, _mods):
         """ 'Q' or 'Escape' quits """
