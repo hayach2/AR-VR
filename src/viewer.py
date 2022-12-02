@@ -67,7 +67,6 @@ class Viewer(Node):
                 print('KEY PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!')
                 self.SPACE_KEY_PRESSED = not self.SPACE_KEY_PRESSED
 
-            print(self.SPACE_KEY_PRESSED)
             if not self.SPACE_KEY_PRESSED:
                 f = open("test.txt", "r")
                 x = f.read(1)
