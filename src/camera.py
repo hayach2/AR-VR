@@ -15,7 +15,7 @@ from transform import normalized
 class Camera:
 	def __init__(self):
 		# Camera position
-		self.cameraPos = np.array((0.0, 191, 180.0))
+		self.cameraPos = np.array((132, 159, 110.0))
 		# self.cameraPos = np.array((0, 0, -276.76675199))
 		# Camera direction
 		self.cameraTarget = np.array((0.0, 0.0, 0.0))
@@ -33,30 +33,80 @@ class Camera:
 		self.sensitivity = 0.01
 	
 	def processInput(self, window, deltaTime, x):
+		y_extreme = 162
+		x_extreme = 132
+		y_second_page = 29
+		y_third_page = -103
+
+		# top_left = [132, 162, 110]
+		# bottom_left = [132, -162, 110]
+		# second_page = [132, 29, 110]
+		# third_page = [132, -103, 110]
+
+		# top_right = [-132, 162, 110]
+		# extreme_bottom = [-132, -162, 110]
+		# second_page = [-132, 29, 110]
+		# third_page = [-132, -103, 110]
+
 		if len(x) > 0:
 			x = int(x)
-			if x == 1 and self.cameraPos[1] < 191:
+			if x == 1 and self.cameraPos[1] < y_extreme:
 				# x, y, z
 				self.cameraPos += np.array((0.0, 0.3, 0.0))
 				print("moving UP")
-			elif x == 0 and self.cameraPos[1] > -191:
+			elif x == 0 and self.cameraPos[1] > -y_extreme:
 				self.cameraPos -= np.array((0.0, 0.3, 0.0))
 				print("moving DOWN")
-			elif x == 2 and self.cameraPos[1] > -191:
+			elif x == 2:
 				# left
-				self.cameraPos[1] = -191
-				print("moving >> DOWN")
-			elif x == 3 and self.cameraPos[1] < 191:
+				if - y_extreme < self.cameraPos[1] < y_second_page:
+					self.cameraPos[1] = y_second_page
+				elif y_second_page < self.cameraPos[1] < y_third_page:
+					self.cameraPos[1] = y_third_page
+				elif y_third_page < self.cameraPos[1]:
+					self.cameraPos[1] = -y_extreme
+				elif self.cameraPos[1] == - y_extreme:
+					self.cameraPos[1] = y_second_page
+				elif self.cameraPos[1] == y_second_page:
+					self.cameraPos[1] = y_third_page
+				elif self.cameraPos[1] == y_extreme:
+					self.cameraPos[1] = - y_extreme
+				sleep(1)
+				print("skipping section down")
+			elif x == 3 and self.cameraPos[1] < y_extreme:
 				# right
-				self.cameraPos[1] = 191
-				print("moving >> UP")
+				if - y_extreme < self.cameraPos[1] < y_second_page:
+					self.cameraPos[1] = - y_extreme
+				elif y_second_page < self.cameraPos[1] < y_third_page:
+					self.cameraPos[1] = y_second_page
+				elif y_third_page < self.cameraPos[1]:
+					self.cameraPos[1] = y_third_page
+				elif self.cameraPos[1] == - y_extreme:
+					self.cameraPos[1] = y_third_page
+				elif self.cameraPos[1] == y_second_page:
+					self.cameraPos[1] = - y_extreme
+				elif self.cameraPos[1] == y_extreme:
+					self.cameraPos[1] = y_second_page
+				sleep(1)
+				print("skipping section up")
+			elif x == 4:
+				# tilt right
+				self.cameraPos[0] = x_extreme
+			elif x == 5:
+				# tilt left
+				self.cameraPos[0] = - x_extreme
 			else:
 				print("")
 	
-	# if glfw.get_key(window=window, key=glfw.KEY_UP) and self.cameraPos[1] < 191:
-	# 	self.cameraPos += np.array((0.0, 1, 0.0))
-	# if glfw.get_key(window=window, key=glfw.KEY_DOWN) and self.cameraPos[1] > -191:
-	# 	self.cameraPos -= np.array((0.0, 1, 0.0))
+		if glfw.get_key(window=window, key=glfw.KEY_UP):
+			self.cameraPos += np.array((0.0, 1, 0.0))
+		if glfw.get_key(window=window, key=glfw.KEY_RIGHT):
+			self.cameraPos += np.array((1.0, 0, 0.0))
+		if glfw.get_key(window=window, key=glfw.KEY_LEFT):
+			self.cameraPos -= np.array((1.0, 0, 0.0))
+		if glfw.get_key(window=window, key=glfw.KEY_DOWN):
+			self.cameraPos -= np.array((0.0, 1, 0.0))
+		# print(self.cameraPos)
 	
 	def cameraPositionXZ(self):
 		return 0

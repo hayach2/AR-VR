@@ -1,6 +1,7 @@
 import cv2
 import face_recognition
 from time import sleep
+import numpy as np
 
 myfile = "test.txt"
 
@@ -23,8 +24,8 @@ def head_movements():
 	# sensitivity
 	MIN_MOVE = 20
 
-	face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-	eye_cascade = cv2.CascadeClassifier("haarcascade_eye.xml")
+	face_cascade = cv2.CascadeClassifier("../headmovements/haarcascade_frontalface_default.xml")
+	eye_cascade = cv2.CascadeClassifier("../headmovements/haarcascade_eye.xml")
 
 	while True:
 		
@@ -33,12 +34,12 @@ def head_movements():
 		frameRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 		box = face_recognition.face_locations(frameRGB)
 
-		gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 		faces = face_cascade.detectMultiScale(gray, 1.1, 5)
 		x, y, w, h = 0, 0, 0, 0
 		for (x, y, w, h) in faces:
-			cv.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-			cv.circle(frame, (x + int(w * 0.5), y +
+			cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+			cv2.circle(frame, (x + int(w * 0.5), y +
 							  int(h * 0.5)), 4, (0, 255, 0), -1)
 		eyes = eye_cascade.detectMultiScale(gray[y:(y + h), x:(x + w)], 1.1, 4)
 		index = 0
@@ -49,7 +50,7 @@ def head_movements():
 				eye_1 = [ex, ey, ew, eh]
 			elif index == 1:
 				eye_2 = [ex, ey, ew, eh]
-			cv.rectangle(frame[y:(y + h), x:(x + w)], (ex, ey),
+			cv2.rectangle(frame[y:(y + h), x:(x + w)], (ex, ey),
 						 (ex + ew, ey + eh), (0, 0, 255), 2)
 			index = index + 1
 		if (eye_1[0] is not None) and (eye_2[0] is not None):

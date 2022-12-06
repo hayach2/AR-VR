@@ -9,12 +9,12 @@ def main():
     viewer = Viewer(width=1920, height=1080)
     # -------------------------------------------------
     field = [
-        '../resources/skybox/ok.jpg',
-        '../resources/skybox/ok.jpg',
-        '../resources/skybox/ok.jpg',
-        '../resources/skybox/ok.jpg',
         '../resources/skybox/ft.jpg',
-        '../resources/skybox/ok.jpg']
+        '../resources/skybox/ft.jpg',
+        '../resources/skybox/ft.jpg',
+        '../resources/skybox/ft.jpg',
+        '../resources/skybox/ft.jpg',
+        '../resources/skybox/ft.jpg']
 
     viewer.add(Skybox(field))
 
