@@ -47,54 +47,67 @@ class Camera:
 		# extreme_bottom = [-132, -162, 110]
 		# second_page = [-132, 29, 110]
 		# third_page = [-132, -103, 110]
-
+		# print(self.cameraPos[1])
 		if len(x) > 0:
 			x = int(x)
 			if x == 1 and self.cameraPos[1] < y_extreme:
 				# x, y, z
-				self.cameraPos += np.array((0.0, 0.3, 0.0))
+				self.cameraPos += np.array((0.0, 1.0, 0.0))
 				print("moving UP")
 			elif x == 0 and self.cameraPos[1] > -y_extreme:
-				self.cameraPos -= np.array((0.0, 0.3, 0.0))
+				self.cameraPos -= np.array((0.0, 1.0, 0.0))
 				print("moving DOWN")
 			elif x == 2:
 				# left
-				if - y_extreme < self.cameraPos[1] < y_second_page:
-					self.cameraPos[1] = y_second_page
-				elif y_second_page < self.cameraPos[1] < y_third_page:
-					self.cameraPos[1] = y_third_page
-				elif y_third_page < self.cameraPos[1]:
-					self.cameraPos[1] = -y_extreme
-				elif self.cameraPos[1] == - y_extreme:
-					self.cameraPos[1] = y_second_page
-				elif self.cameraPos[1] == y_second_page:
-					self.cameraPos[1] = y_third_page
-				elif self.cameraPos[1] == y_extreme:
-					self.cameraPos[1] = - y_extreme
-				sleep(1)
-				print("skipping section down")
-			elif x == 3 and self.cameraPos[1] < y_extreme:
-				# right
-				if - y_extreme < self.cameraPos[1] < y_second_page:
-					self.cameraPos[1] = - y_extreme
-				elif y_second_page < self.cameraPos[1] < y_third_page:
-					self.cameraPos[1] = y_second_page
-				elif y_third_page < self.cameraPos[1]:
-					self.cameraPos[1] = y_third_page
-				elif self.cameraPos[1] == - y_extreme:
-					self.cameraPos[1] = y_third_page
-				elif self.cameraPos[1] == y_second_page:
-					self.cameraPos[1] = - y_extreme
-				elif self.cameraPos[1] == y_extreme:
-					self.cameraPos[1] = y_second_page
-				sleep(1)
+				
+				if (self.cameraPos[1] + 45) > y_extreme:
+					self.cameraPos[1] = y_extreme
+				else:
+					self.cameraPos[1] += 45
+
+				# if - y_extreme < self.cameraPos[1] < y_second_page:
+				# 	self.cameraPos[1] = y_second_page
+				# elif y_second_page < self.cameraPos[1] < y_third_page:
+				# 	self.cameraPos[1] = y_third_page
+				# elif y_third_page < self.cameraPos[1]:
+				# 	self.cameraPos[1] = -y_extreme
+				# elif self.cameraPos[1] == - y_extreme:
+				# 	self.cameraPos[1] = y_second_page
+				# elif self.cameraPos[1] == y_second_page:
+				# 	self.cameraPos[1] = y_third_page
+				# elif self.cameraPos[1] == y_extreme:
+				# 	self.cameraPos[1] = - y_extreme
+				# sleep(2)
 				print("skipping section up")
-			elif x == 4:
-				# tilt right
-				self.cameraPos[0] = x_extreme
+			elif x == 3:
+				# right
+
+				if (self.cameraPos[1] - 45) < - y_extreme:
+					self.cameraPos[1] = - y_extreme
+				else:
+					self.cameraPos[1] -= 45
+				
+				
+				# if - y_extreme < self.cameraPos[1] < y_second_page:
+				# 	self.cameraPos[1] = - y_extreme
+				# elif y_second_page < self.cameraPos[1] < y_third_page:
+				# 	self.cameraPos[1] = y_second_page
+				# elif y_third_page < self.cameraPos[1]:
+				# 	self.cameraPos[1] = y_third_page
+				# elif self.cameraPos[1] == - y_extreme:
+				# 	self.cameraPos[1] = y_third_page
+				# elif self.cameraPos[1] == y_second_page:
+				# 	self.cameraPos[1] = - y_extreme
+				# elif self.cameraPos[1] == y_extreme:
+				# 	self.cameraPos[1] = y_second_page
+				# sleep(2)
+				print("skipping section down")
 			elif x == 5:
-				# tilt left
+				# tilt right
 				self.cameraPos[0] = - x_extreme
+			elif x == 4:
+				# tilt left
+				self.cameraPos[0] = x_extreme
 			else:
 				print("")
 	
