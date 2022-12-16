@@ -4,11 +4,17 @@ import OpenGL.GL as GL
 from transform import identity, lookat, perspective
 from node import Node
 from camera import Camera
+import cv2
+import face_recognition
 
+myfile = "test.txt"
 
 # ------------  Viewer class & window management ------------------------------
 class Viewer(Node):
     """ GLFW viewer window, with classic initialization & graphics loop """
+
+    pressed = 0
+    toolON = True
 
     def __init__(self, width=640, height=480):
         super().__init__()
@@ -64,14 +70,23 @@ class Viewer(Node):
             glfw.poll_events()
 
             if glfw.get_key(window=self.win, key=glfw.KEY_SPACE):
-                print('KEY PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!')
-                self.SPACE_KEY_PRESSED = not self.SPACE_KEY_PRESSED
+                self.pressed = self.pressed + 1
+                if self.pressed == 1:
+                    self.toolON = not self.toolON
+                    f = open("viewerfile.txt", "w")
+                    if self.toolON:
+                        f.write("1")
+                        print('Tool activated')
+                    else:
+                        f.write("0")
+                        print('Tool deactivated')
+                    f.close()
+            else:
+                self.pressed = 0
 
-            if not self.SPACE_KEY_PRESSED:
-                f = open("test.txt", "r")
-                x = f.read(1)
-                # f.close()
-                self.camera.processInput(window=self.win, deltaTime=delta_time, x=x)
+            f = open("test.txt", "r")
+            x = f.read(1)
+            self.camera.processInput(viewer=self, window=self.win, deltaTime=delta_time, x=x)
 
     def on_key(self, _win, key, _scancode, action, _mods):
         """ 'Q' or 'Escape' quits """
@@ -85,3 +100,4 @@ class Viewer(Node):
 
             # call Node.key_handler which calls key_handlers for all drawables
             self.key_handler(key)
+

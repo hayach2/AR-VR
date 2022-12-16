@@ -4,7 +4,6 @@ import glfw
 from viewer import Viewer
 from skybox import Skybox
 
-
 def main():
     viewer = Viewer(width=1920, height=1080)
     # -------------------------------------------------
@@ -17,7 +16,9 @@ def main():
         '../resources/skybox/ft.jpg']
 
     viewer.add(Skybox(field))
-
+    f = open("viewerfile.txt", "w")
+    f.write("1")
+    f.close()
     viewer.run()
 
 
