@@ -69,20 +69,15 @@ class Viewer(Node):
             # Poll for and process events
             glfw.poll_events()
 
+            f = open("viewerfile.txt", "w")
             if glfw.get_key(window=self.win, key=glfw.KEY_SPACE):
-                self.pressed = self.pressed + 1
-                if self.pressed == 1:
-                    self.toolON = not self.toolON
-                    f = open("viewerfile.txt", "w")
-                    if self.toolON:
-                        f.write("1")
-                        print('Tool activated')
-                    else:
-                        f.write("0")
-                        print('Tool deactivated')
-                    f.close()
+                f.write("1")
+                print('Tool activated')
             else:
                 self.pressed = 0
+                f.write("0")
+                print('Tool deactivated')
+            f.close()
 
             f = open("test.txt", "r")
             x = f.read(1)

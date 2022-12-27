@@ -12,13 +12,10 @@ def head_movements():
     box = face_recognition.face_locations(frameRGB)
     if len(box) < 1 or len(box[0]) < 4:
         head_movements()
-    cx_ = (box[0][3] + box[0][1]) / 2
-    cy_ = (box[0][0] + box[0][2]) / 2
-    cx = cx_
-    cy = cy_
-
-    MIN_MOVE = 50
-    MIN_MOVE_V = 25
+    reset = 1
+    var = 0
+    begin = 1
+    MIN_MOVE = 25
 
     while True:
         _, frame = Camera.read()
@@ -26,52 +23,65 @@ def head_movements():
         frameRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         box = face_recognition.face_locations(frameRGB)
 
-        hor = 0
         f = open("viewerfile.txt", "r")
         if (box != []):
             if f.read() == "1":
                 f.close()
-                cx = (box[0][3] + box[0][1]) / 2
-                cy = (box[0][0] + box[0][2]) / 2
-                # cv2.rectangle(frame, (box[0][3], box[0][2]), (box[0][1], box[0][0]), (0, 0, 255), 2)
+                if reset:
+                    print('RESET')
+                    cx_ = (box[0][3] + box[0][1]) / 2
+                    cy_ = (box[0][0] + box[0][2]) / 2
+                    cx = cx_
+                    cy = cy_
+                else:
+                    cx = (box[0][3] + box[0][1]) / 2
+                    cy = (box[0][0] + box[0][2]) / 2
 
-                # if person moves head to right or left: disable the navigation
-                # if person doesn't go left and right for 1 second, then he's focused
                 f = open("test.txt", "w")
                 f.write("")
                 print(cx_, cy_)
                 print(cx, cy)
 
-                if abs(cx - cx_) > 110 or abs(cy - cy_) > 110:
-                    print('MOVEMENT TOO WIDE ---> NEW POSITION')
-                    cx_ = (box[0][3] + box[0][1]) / 2
-                    cy_ = (box[0][0] + box[0][2]) / 2
-                    hor = 0
+                #if abs(cx - cx_) > 100 or abs(cy - cy_) > 100:
+                #    print('MOVEMENT TOO WIDE ---> NEW POSITION')
+                #    reset = 1
 
-                if abs(cx - cx_) < abs(cy - cy_):
-                    if hor == 0:
-                        if cy - cy_ > MIN_MOVE_V:
-                            f.write("0")
-                            print('DOWN')
-                        elif cy - cy_ < -MIN_MOVE_V:
-                            f.write("1")
-                            print('UP')
-                    else:
-                        hor = hor-1
-                        cy_ = cy
-                    cx_ = cx
-                else:
-                    hor=3
-                    if cx - cx_ > MIN_MOVE:
+                if abs(cx - cx_) < abs(cy - cy_):   # VERTICAL
+                    if cy - cy_ > MIN_MOVE and (begin == 1 or var == 1):
+                        if begin:
+                            var = 1
+                            begin = 0
+                        f.write("0")
+                        print('DOWN')
+                    elif cy - cy_ < -MIN_MOVE and (begin == 1 or var == 2):
+                        if begin:
+                            var = 2
+                            begin = 0
+                        f.write("1")
+                        print('UP')
+                else:                               # HORIZONTAL
+                    if cx - cx_ > MIN_MOVE and (begin == 1 or var == 3):
+                        if begin:
+                            var = 3
+                            begin = 0
                         f.write("2")
                         print('LEFT')
-                    elif cx - cx_ < -MIN_MOVE:
+                    elif cx - cx_ < -MIN_MOVE and (begin == 1 or var == 4):
+                        if begin:
+                            var = 4
+                            begin = 0
                         f.write("3")
                         print('RIGHT')
+                reset = 0
                 f.close()
             else:
-                cx_ = (box[0][3] + box[0][1]) / 2
-                cy_ = (box[0][0] + box[0][2]) / 2
+                reset = 1
+                var = 0
+                begin = 1
+                print('TOOL DEACTIVATED')
+                f.close()
+                f = open("test.txt", "w")
+                f.write("")
                 f.close()
 
         cv2.imshow("unlock Face", frame)
