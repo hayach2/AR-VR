@@ -60,7 +60,11 @@ class Camera:
 
 			else:
 				print("")
-	
+
+		if glfw.get_key(window=window, key=glfw.KEY_H):
+			self.cameraPos[0] = 0.5 
+			self.cameraPos[1] = 34
+			self.cameraPos[2] = 110
 		if glfw.get_key(window=window, key=glfw.KEY_UP) and self.cameraPos[1] + 2.0 <= y_extreme:
 			self.cameraPos[1] += 2.0
 			print("moving UP")
@@ -80,9 +84,6 @@ class Camera:
 			self.cameraPos[1] -= 2.0
 			print("moving DOWN")
 
-		# if glfw.get_key(window=window, key=glfw.GLFW_KEY_R):
-		# 	self.cameraPos[1] -= 2.0
-		# 	print("moving DOWN")
 		print(self.cameraPos)
 
 	
