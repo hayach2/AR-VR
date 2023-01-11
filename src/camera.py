@@ -80,6 +80,11 @@ class Camera:
 			self.cameraPos[1] -= 2.0
 			print("moving DOWN")
 
+		# if glfw.get_key(window=window, key=glfw.GLFW_KEY_R):
+		# 	self.cameraPos[1] -= 2.0
+		# 	print("moving DOWN")
+		print(self.cameraPos)
+
 	
 	def cameraPositionXZ(self):
 		return 0
