@@ -61,14 +61,24 @@ class Camera:
 			else:
 				print("")
 	
-		if glfw.get_key(window=window, key=glfw.KEY_UP) and self.cameraPos[1] + 1.5 <= y_extreme:
-			self.cameraPos += np.array((0.0, 1.5, 0.0))
-		if glfw.get_key(window=window, key=glfw.KEY_RIGHT) and self.cameraPos[0] - 1.5 >= -x_extreme:
-			self.cameraPos -= np.array((1.5, 0, 0.0))
-		if glfw.get_key(window=window, key=glfw.KEY_LEFT) and self.cameraPos[0] + 1.5 <= x_extreme:
-			self.cameraPos += np.array((1.5, 0, 0.0))
-		if glfw.get_key(window=window, key=glfw.KEY_DOWN) and self.cameraPos[1] - 1.5 >= -y_extreme:
-			self.cameraPos -= np.array((0.0, 1.5, 0.0))
+		if glfw.get_key(window=window, key=glfw.KEY_UP) and self.cameraPos[1] + 2.0 <= y_extreme:
+			self.cameraPos[1] += 2.0
+			print("moving UP")
+		if glfw.get_key(window=window, key=glfw.KEY_RIGHT):
+			if (self.cameraPos[0] - 1.5) <= -x_extreme:
+					self.cameraPos[0] = -x_extreme
+			else:
+				self.cameraPos[0] -= 1.5
+			print("right")
+		if glfw.get_key(window=window, key=glfw.KEY_LEFT):
+			if (self.cameraPos[0] + 1.5) >= x_extreme:
+					self.cameraPos[0] = x_extreme
+			else:
+				self.cameraPos[0] += 1.5
+			print("left")
+		if glfw.get_key(window=window, key=glfw.KEY_DOWN) and self.cameraPos[1] - 2.0 >= -y_extreme:
+			self.cameraPos[1] -= 2.0
+			print("moving DOWN")
 
 	
 	def cameraPositionXZ(self):
